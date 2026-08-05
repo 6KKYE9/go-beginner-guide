@@ -129,8 +129,10 @@ go-beginner-guide/
 │   └── basics_test.go  # 示例1 的测试文件
 ├── stdlib/
 │   └── stdlib.go       # 示例2：fmt / os / strconv 标准库
-└── games/
-    └── guess.go        # 示例3：猜数字小游戏（综合练习）
+├── games/
+│   └── guess.go        # 示例3：猜数字小游戏（综合练习）
+└── todo/
+    └── todo.go         # 示例4：命令行待办事项工具（struct/slice/JSON持久化）
 ```
 
 ---
@@ -142,8 +144,36 @@ go-beginner-guide/
 | `basics/basics.go` | 变量三种声明方式、const 常量、if-else、for 循环、switch、函数定义 | `add()` |
 | `stdlib/stdlib.go` | 命令行参数读取、字符串转数字、格式化输出 | `demoOS()` `demoStrconv()` `demoFmt()` |
 | `games/guess.go` | 随机数、缓冲读取输入、循环+条件判断综合应用 | `guessNumber()` |
+| `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
-建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 最后挑战 `games`**。
+建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 最后研究 `todo`**。
+
+---
+
+## 五之二、待办事项工具（todo）详解
+
+这是一个**能真正日常使用**的小工具，把你学的知识串起来：用 `struct` 表示一条待办，用 `slice` 存很多条，用 `json` 文件保存到磁盘（关掉程序数据也不丢），用 `flag` 解析命令。
+
+**运行示例：**
+```powershell
+go run ./todo add "学习 Go 语言"     # 添加一条
+go run ./todo add "去超市买菜"       # 再添加一条
+go run ./todo list                   # 列出全部
+go run ./todo done 1                 # 把第 1 条标记完成
+go run ./todo rm 2                   # 删除第 2 条
+go run ./todo clear                  # 清空所有
+go run ./todo help                   # 查看帮助
+```
+
+**预期输出（list 时）：**
+```
+===== 待办列表 =====
+[x] 1. 学习 Go 语言
+[ ] 2. 去超市买菜
+```
+（`[x]` 表示已完成，`[ ]` 表示未完成）
+
+> 💡 数据保存在项目目录下的 `.todo.json` 文件中（已被 .gitignore 忽略，不会上传）。
 
 ---
 
