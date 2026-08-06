@@ -195,6 +195,34 @@ go run ./timepkg
 ```
 > `time.Now()` 拿当前时间；格式化要用 Go 的"参考时间" `2006-01-02 15:04:05` 当模板，别用 `YYYY-MM-DD` 那套。`Add`/`Sub`/`Since` 算时间差，`Sleep` 真会停，`Parse` 把字符串按同样模板解析回来。
 
+**示例 10 —— 迷你 Web 服务（net/http）：**
+```powershell
+go run ./web
+```
+启动后会一直监听 8080 端口（终端会打印访问地址），另开一个终端用 curl 访问：
+```powershell
+curl http://localhost:8080/
+curl "http://localhost:8080/hello?name=小明"
+curl http://localhost:8080/api/ping
+```
+各接口预期返回：
+```text
+# GET /
+欢迎来到迷你 Web 服务！
+你访问的是：/
+这是第 1 次被访问。
+
+# GET /hello?name=小明
+你好，小明！这是 /hello 接口。
+
+# GET /api/ping
+{"status":"ok","message":"pong"}
+```
+> 这是 Go 最拿手的后端本事：用 `http.HandleFunc` 把"网址路径"绑到"处理函数"，
+> 处理函数里用 `http.ResponseWriter` 写回内容、用 `*http.Request` 读请求（比如 `r.URL.Query()` 取参数）。
+> `http.ListenAndServe(":8080", mux)` 启动后阻塞监听，按 `Ctrl+C` 停止。
+> 想验证又不想开服务器？`web/server_test.go` 用 `httptest` 在内存里打这三个路由，直接 `go test ./web` 即可。
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -241,6 +269,9 @@ go-beginner-guide/
 │   └── files_test.go   # 示例8 的测试文件
 ├── timepkg/
 │   └── timepkg.go      # 示例9：时间处理入门——time
+├── web/
+│   ├── server.go        # 示例10：迷你 Web 服务——net/http / 路由 / 响应
+│   └── server_test.go   # 示例10 的测试文件（httptest 验证路由）
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -260,6 +291,7 @@ go-beginner-guide/
 | `text/text.go` | `strings` 切分/拼接/替换/前后缀、`strconv` 字符串与数字互转 | `RunText()` |
 | `files/files.go` | `os` 读写文件、`bufio` 按行读、字符串过滤、数据持久化 | `appendNote()` `readNotes()` |
 | `timepkg/timepkg.go` | `time` 当前时间、格式化（参考时间 2006-01-02 15:04:05）、时间差、Sleep、Parse | `demoNow()` `demoSleep()` `demoParse()` |
+| `web/server.go` | `net/http` 注册路由、处理函数读写请求响应、启动 HTTP 服务、URL 查询参数 | `homeHandler()` `helloHandler()` `apiHandler()` `setupRoutes()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
