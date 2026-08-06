@@ -79,11 +79,8 @@ go run ./stdlib 小红 20
 > 注意后面跟了两个参数：名字和年龄。
 预期输出：
 ```
-===== os 包：命令行参数演示 =====
 你好， 小红 ！你输入的年龄字符串是： 20
-===== strconv 包：字符串转数字演示 =====
-明年你就 21 岁了
-===== fmt 包：格式化输出演示 =====
+明年你就 19 岁了
 姓名：小红，成绩：92.5 分
 恭喜 小红 考了 92.5 分
 ```
@@ -195,6 +192,20 @@ go run ./files
 ```
 > 数据存磁盘才不会丢。`os.OpenFile` 用 `O_APPEND|O_CREATE` 就能追加写；`bufio.Scanner` 按行读最省事。注意文件不存在时 `os.Open` 会报 `os.ErrNotExist`，处理一下就当空文件。
 
+**示例 9 —— 时间处理入门（time）：**
+```powershell
+go run ./timepkg
+```
+预期输出（时间部分会因运行时刻不同而变化）：
+```text
+现在： 2026-08-06 17:20:00
+90 秒后： 17:21:30
+差了： 90 秒
+睡了 1 秒
+解析出来的星期： Thursday
+```
+> `time.Now()` 拿当前时间；格式化要用 Go 的"参考时间" `2006-01-02 15:04:05` 当模板，别用 `YYYY-MM-DD` 那套。`Add`/`Sub`/`Since` 算时间差，`Sleep` 真会停，`Parse` 把字符串按同样模板解析回来。
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -239,6 +250,8 @@ go-beginner-guide/
 ├── files/
 │   ├── files.go        # 示例8：文件读写入门——os / bufio
 │   └── files_test.go   # 示例8 的测试文件
+├── timepkg/
+│   └── timepkg.go      # 示例9：时间处理入门——time
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -257,6 +270,7 @@ go-beginner-guide/
 | `errors/errors.go` | 错误作为返回值、`errors.New` 创建错误、`fmt.Errorf` 带上下文、调用方错误处理 | `divide()` `sqrt()` |
 | `text/text.go` | `strings` 切分/拼接/替换/前后缀、`strconv` 字符串与数字互转 | `RunText()` |
 | `files/files.go` | `os` 读写文件、`bufio` 按行读、字符串过滤、数据持久化 | `appendNote()` `readNotes()` |
+| `timepkg/timepkg.go` | `time` 当前时间、格式化（参考时间 2006-01-02 15:04:05）、时间差、Sleep、Parse | `demoNow()` `demoSleep()` `demoParse()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
