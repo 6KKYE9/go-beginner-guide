@@ -7,12 +7,12 @@
 
 ## 一、项目介绍与学习价值
 
-很多人学编程卡在“看了教程却不知道怎么动手”。本项目反其道而行：
+很多人学编程卡在"看了教程却不知道怎么动手"。本项目反其道而行：
 
 - **边读边跑**：每个示例都能直接运行，看到真实输出，比纯文字更直观。
 - **注释即教程**：代码里的注释就是讲解，不需要额外查资料。
 - **覆盖核心**：变量、数据类型、if/for/switch、函数、常用标准库，一次学全。
-- **带测试**：学会写测试，养成“验证代码正确性”的好习惯（程序员的核心素养）。
+- **带测试**：学会写测试，养成"验证代码正确性"的好习惯（程序员的核心素养）。
 
 学完本项目，你将能够：**独立写出可运行的 Go 小程序，并用 Git/GitHub 管理自己的代码**。
 
@@ -25,7 +25,7 @@
 | Go   | >= 1.21（本项目用 1.26 测试） | 编译运行 Go 代码 |
 | Git  | 任意较新版本 | 把代码上传到 GitHub |
 
-> 本项目**没有任何第三方依赖**，只用 Go 自带的“标准库”，所以你不需要 `go get` 安装任何东西。
+> 本项目**没有任何第三方依赖**，只用 Go 自带的"标准库"，所以你不需要 `go get` 安装任何东西。
 
 **检查 Go 是否安装成功：**
 ```powershell
@@ -141,7 +141,7 @@ go run ./concurrency
 工人 2 开始处理任务 5
 全部结果（按完成顺序）: [2 4 6 8 10]
 ```
-> 这是 Go 的“杀手锏”。`go 函数()` 就能开一个并发任务；`chan` 是它们之间的传声筒；
+> 这是 Go 的"杀手锏"。`go 函数()` 就能开一个并发任务；`chan` 是它们之间的传声筒；
 > `sync.WaitGroup` 像点名册，主程序等所有工人干完再收工。注释里有逐行讲解。
 
 **示例 6 —— 错误处理入门（error / errors.New / fmt.Errorf）：**
@@ -156,8 +156,29 @@ go run ./errors
 出错了: 不能对负数开平方，收到的值: -4
 sqrt(9) = 3.00
 ```
-> Go 没有 try/catch，而是把“可能出错”作为函数的一个普通返回值（类型 `error`）。
+> Go 没有 try/catch，而是把"可能出错"作为函数的一个普通返回值（类型 `error`）。
 > 约定写法：`if err != nil { 处理错误 } else { 用结果 }`。学会它，你的程序才健壮。
+
+**示例 7 —— 文本处理入门（strings / strconv）：**
+```powershell
+go run ./text
+```
+预期输出：
+```text
+===== 文本处理演示 =====
+原文: "  Hello, Go World!  "
+去首尾空格: "Hello, Go World!"
+转小写: "  hello, go world!  "
+是否以 Hello 开头: true
+World 出现了吗: true
+把 o 换成 0: "  Hell0, G0 W0rld!  "
+切分后: [apple banana cherry]
+用 | 拼回: apple | banana | cherry
+Atoi 结果: 42，加 8 等于 50
+Itoa(100) -> 100
+FormatFloat: 3.14
+```
+> 八成时间都在跟字符串打交道。cuts：`strings.TrimSpace` 去空格、`Split/Join` 切了再拼、`ReplaceAll` 全量替换；`strconv.Atoi/Itoa` 做字符串和数字互转。注释里都标了坑。
 
 ### 第 3 步：运行测试
 ```powershell
@@ -178,7 +199,7 @@ ok  	go-beginner-guide/structs	0.00Xs
 
 ```
 go-beginner-guide/
-├── go.mod              # 模块定义文件（Go 项目的“身份证”）
+├── go.mod              # 模块定义文件（Go 项目的"身份证"）
 ├── .gitignore          # 告诉 Git 哪些文件不要上传（如编译产物）
 ├── README.md           # 你正在看的说明文档
 ├── basics/
@@ -197,6 +218,9 @@ go-beginner-guide/
 ├── errors/
 │   ├── errors.go       # 示例6：错误处理入门——error / errors.New / fmt.Errorf
 │   └── errors_test.go  # 示例6 的测试文件
+├── text/
+│   ├── text.go         # 示例7：文本处理入门——strings / strconv
+│   └── text_test.go    # 示例7 的测试文件
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -213,6 +237,7 @@ go-beginner-guide/
 | `structs/roster.go` | 结构体 struct、方法 method、切片排序、字符串拼接、格式化输出 | `Add()` `Top()` `Best()` `AverageScore()` |
 | `concurrency/worker.go` | goroutine 并发、channel 通道通信、sync.WaitGroup 同步、关闭通道 | `RunConcurrency()` `worker()` |
 | `errors/errors.go` | 错误作为返回值、`errors.New` 创建错误、`fmt.Errorf` 带上下文、调用方错误处理 | `divide()` `sqrt()` |
+| `text/text.go` | `strings` 切分/拼接/替换/前后缀、`strconv` 字符串与数字互转 | `RunText()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
@@ -249,7 +274,7 @@ go run ./todo help                   # 查看帮助
 ## 六、常见问题（小白必看）
 
 **Q1：`go run` 报错 `go: command not found`？**
-A：Go 没装好或没加入环境变量 PATH。重新安装 Go 并勾选“Add to PATH”。
+A：Go 没装好或没加入环境变量 PATH。重新安装 Go 并勾选"Add to PATH"。
 
 **Q2：猜数字游戏运行时卡住不动？**
 A：它在等你输入数字并回车。输入一个数字按回车即可，直到猜中。
@@ -262,4 +287,4 @@ A：在对应目录下新建 `xxx.go`，包名写 `package main` 并写 `func ma
 
 ---
 
-祝学习愉快！🎉 把本项目跑通并上传到 GitHub，你就完成了“从零到上线”的第一步。
+祝学习愉快！🎉 把本项目跑通并上传到 GitHub，你就完成了"从零到上线"的第一步。
