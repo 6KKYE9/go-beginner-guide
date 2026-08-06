@@ -23,7 +23,8 @@ type Todo struct {
 }
 
 // 数据落在本目录的 .todo.json，每次运行读同一个文件。
-const dataFile = ".todo.json"
+// 用变量而非常量，便于测试时重定向到临时文件。
+var dataFile = ".todo.json"
 
 // 读盘；文件不存在（第一次跑）就当空列表返回。
 func loadTodos() []Todo {
@@ -32,25 +33,38 @@ func loadTodos() []Todo {
 		return []Todo{}
 	}
 	var todos []Todo
-	json.Unmarshal(data, &todos)
+	// 解析失败要明确提示，而不是悄悄返回半截数据
+	if err := json.Unmarshal(data, &todos); err != nil {
+		fmt.Printf("警告：%s 内容损坏，已按空列表处理：%v\n", dataFile, err)
+		return []Todo{}
+	}
 	return todos
 }
 
 // 覆盖写回磁盘。0644 是文件权限，不存在就新建。
-func saveTodos(todos []Todo) {
-	data, _ := json.MarshalIndent(todos, "", "  ")
-	os.WriteFile(dataFile, data, 0644)
+// 返回错误，避免磁盘满/无权限时用户误以为保存成功。
+func saveTodos(todos []Todo) error {
+	data, err := json.MarshalIndent(todos, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(dataFile, data, 0644)
 }
 
 func add(title string) {
 	todos := loadTodos()
-	// 新编号取当前最大 +1，空列表时从 1 开始
+	// 新编号取当前最大 ID +1（而非最后一条），即使中间删过也绝不重复
 	newID := 1
-	if len(todos) > 0 {
-		newID = todos[len(todos)-1].ID + 1
+	for _, t := range todos {
+		if t.ID >= newID {
+			newID = t.ID + 1
+		}
 	}
 	todos = append(todos, Todo{ID: newID, Title: title})
-	saveTodos(todos)
+	if err := saveTodos(todos); err != nil {
+		fmt.Printf("保存失败：%v\n", err)
+		return
+	}
 	fmt.Printf("已添加：%s（编号 %d）\n", title, newID)
 }
 
@@ -84,7 +98,10 @@ func done(id int) {
 		fmt.Printf("找不到编号为 %d 的待办\n", id)
 		return
 	}
-	saveTodos(todos)
+	if err := saveTodos(todos); err != nil {
+		fmt.Printf("保存失败：%v\n", err)
+		return
+	}
 	fmt.Printf("已标记 %d 为完成 ✅\n", id)
 }
 
@@ -103,12 +120,18 @@ func rm(id int) {
 		fmt.Printf("找不到编号为 %d 的待办\n", id)
 		return
 	}
-	saveTodos(newTodos)
+	if err := saveTodos(newTodos); err != nil {
+		fmt.Printf("保存失败：%v\n", err)
+		return
+	}
 	fmt.Printf("已删除编号 %d\n", id)
 }
 
 func clear() {
-	saveTodos([]Todo{})
+	if err := saveTodos([]Todo{}); err != nil {
+		fmt.Printf("清空失败：%v\n", err)
+		return
+	}
 	fmt.Println("已清空所有待办")
 }
 

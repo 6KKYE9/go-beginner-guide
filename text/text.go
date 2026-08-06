@@ -45,3 +45,8 @@ func RunText() {
 	f := 3.14159
 	fmt.Printf("FormatFloat: %s\n", strconv.FormatFloat(f, 'f', 2, 64))
 }
+
+// main 让本示例能直接用 `go run ./text` 运行。
+func main() {
+	RunText()
+}
