@@ -144,6 +144,21 @@ go run ./concurrency
 > 这是 Go 的“杀手锏”。`go 函数()` 就能开一个并发任务；`chan` 是它们之间的传声筒；
 > `sync.WaitGroup` 像点名册，主程序等所有工人干完再收工。注释里有逐行讲解。
 
+**示例 6 —— 错误处理入门（error / errors.New / fmt.Errorf）：**
+```powershell
+go run ./errors
+```
+预期输出：
+```
+===== 错误处理演示 =====
+10 / 2 = 5.00
+出错了: 除数不能为 0
+出错了: 不能对负数开平方，收到的值: -4
+sqrt(9) = 3.00
+```
+> Go 没有 try/catch，而是把“可能出错”作为函数的一个普通返回值（类型 `error`）。
+> 约定写法：`if err != nil { 处理错误 } else { 用结果 }`。学会它，你的程序才健壮。
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -179,6 +194,9 @@ go-beginner-guide/
 ├── concurrency/
 │   ├── worker.go       # 示例5：并发入门——goroutine / channel / WaitGroup
 │   └── worker_test.go  # 示例5 的测试文件
+├── errors/
+│   ├── errors.go       # 示例6：错误处理入门——error / errors.New / fmt.Errorf
+│   └── errors_test.go  # 示例6 的测试文件
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -194,6 +212,7 @@ go-beginner-guide/
 | `games/guess.go` | 随机数、缓冲读取输入、循环+条件判断综合应用 | `guessNumber()` |
 | `structs/roster.go` | 结构体 struct、方法 method、切片排序、字符串拼接、格式化输出 | `Add()` `Top()` `Best()` `AverageScore()` |
 | `concurrency/worker.go` | goroutine 并发、channel 通道通信、sync.WaitGroup 同步、关闭通道 | `RunConcurrency()` `worker()` |
+| `errors/errors.go` | 错误作为返回值、`errors.New` 创建错误、`fmt.Errorf` 带上下文、调用方错误处理 | `divide()` `sqrt()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
