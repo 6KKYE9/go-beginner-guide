@@ -127,6 +127,23 @@ go run ./structs
    小明、小红、小刚、小美
 ```
 
+**示例 5 —— 并发编程入门（goroutine + channel + WaitGroup）：**
+```powershell
+go run ./concurrency
+```
+预期输出（完成顺序可能不同，因为 3 个工人并发工作）：
+```
+===== 并发入门：3 个工人处理 5 个任务 =====
+工人 1 开始处理任务 1
+工人 2 开始处理任务 2
+工人 3 开始处理任务 3
+工人 1 开始处理任务 4
+工人 2 开始处理任务 5
+全部结果（按完成顺序）: [2 4 6 8 10]
+```
+> 这是 Go 的“杀手锏”。`go 函数()` 就能开一个并发任务；`chan` 是它们之间的传声筒；
+> `sync.WaitGroup` 像点名册，主程序等所有工人干完再收工。注释里有逐行讲解。
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -159,6 +176,9 @@ go-beginner-guide/
 ├── structs/
 │   ├── roster.go       # 示例4：结构体与方法——学生成绩册
 │   └── roster_test.go  # 示例4 的测试文件
+├── concurrency/
+│   ├── worker.go       # 示例5：并发入门——goroutine / channel / WaitGroup
+│   └── worker_test.go  # 示例5 的测试文件
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -173,6 +193,7 @@ go-beginner-guide/
 | `stdlib/stdlib.go` | 命令行参数读取、字符串转数字、格式化输出 | `demoOS()` `demoStrconv()` `demoFmt()` |
 | `games/guess.go` | 随机数、缓冲读取输入、循环+条件判断综合应用 | `guessNumber()` |
 | `structs/roster.go` | 结构体 struct、方法 method、切片排序、字符串拼接、格式化输出 | `Add()` `Top()` `Best()` `AverageScore()` |
+| `concurrency/worker.go` | goroutine 并发、channel 通道通信、sync.WaitGroup 同步、关闭通道 | `RunConcurrency()` `worker()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
