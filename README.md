@@ -180,6 +180,21 @@ FormatFloat: 3.14
 ```
 > 八成时间都在跟字符串打交道。cuts：`strings.TrimSpace` 去空格、`Split/Join` 切了再拼、`ReplaceAll` 全量替换；`strconv.Atoi/Itoa` 做字符串和数字互转。注释里都标了坑。
 
+**示例 8 —— 文件读写入门（os / bufio）：**
+```powershell
+go run ./files
+```
+预期输出：
+```text
+文件读写演示（数据存在 .notes.txt ）
+读到了 3 行：
+  1. 买牛奶
+  2. 写代码
+  3. 散步
+含"代码"的有 1 行：[写代码]
+```
+> 数据存磁盘才不会丢。`os.OpenFile` 用 `O_APPEND|O_CREATE` 就能追加写；`bufio.Scanner` 按行读最省事。注意文件不存在时 `os.Open` 会报 `os.ErrNotExist`，处理一下就当空文件。
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -221,6 +236,9 @@ go-beginner-guide/
 ├── text/
 │   ├── text.go         # 示例7：文本处理入门——strings / strconv
 │   └── text_test.go    # 示例7 的测试文件
+├── files/
+│   ├── files.go        # 示例8：文件读写入门——os / bufio
+│   └── files_test.go   # 示例8 的测试文件
 └── todo/
     └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
@@ -238,6 +256,7 @@ go-beginner-guide/
 | `concurrency/worker.go` | goroutine 并发、channel 通道通信、sync.WaitGroup 同步、关闭通道 | `RunConcurrency()` `worker()` |
 | `errors/errors.go` | 错误作为返回值、`errors.New` 创建错误、`fmt.Errorf` 带上下文、调用方错误处理 | `divide()` `sqrt()` |
 | `text/text.go` | `strings` 切分/拼接/替换/前后缀、`strconv` 字符串与数字互转 | `RunText()` |
+| `files/files.go` | `os` 读写文件、`bufio` 按行读、字符串过滤、数据持久化 | `appendNote()` `readNotes()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
 建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
