@@ -103,6 +103,30 @@ go run ./games
 恭喜你，猜中了！答案就是 37
 ```
 
+**示例 4 —— 结构体与方法（学生成绩册）：**
+```powershell
+go run ./structs
+```
+预期输出：
+```
+===== 学生成绩册 =====
+  1. 小明        分数：88.5
+  2. 小红        分数：95.0
+  3. 小刚        分数：76.0
+  4. 小美        分数：91.5
+  全班平均分：87.75
+  第一名：小红（95.0 分）
+
+===== 按分数排序后的名单 =====
+  1. 小红 95.0
+  2. 小美 91.5
+  3. 小明 88.5
+  4. 小刚 76.0
+
+===== 全部学生姓名 =====
+   小明、小红、小刚、小美
+```
+
 ### 第 3 步：运行测试
 ```powershell
 go test ./...
@@ -110,6 +134,7 @@ go test ./...
 预期输出：
 ```
 ok  	go-beginner-guide/basics	0.019s
+ok  	go-beginner-guide/structs	0.00Xs
 ?   	go-beginner-guide/games	[no test files]
 ?   	go-beginner-guide/stdlib	[no test files]
 ```
@@ -131,8 +156,11 @@ go-beginner-guide/
 │   └── stdlib.go       # 示例2：fmt / os / strconv 标准库
 ├── games/
 │   └── guess.go        # 示例3：猜数字小游戏（综合练习）
+├── structs/
+│   ├── roster.go       # 示例4：结构体与方法——学生成绩册
+│   └── roster_test.go  # 示例4 的测试文件
 └── todo/
-    └── todo.go         # 示例4：命令行待办事项工具（struct/slice/JSON持久化）
+    └── todo.go         # 示例5：命令行待办事项工具（struct/slice/JSON持久化）
 ```
 
 ---
@@ -144,9 +172,10 @@ go-beginner-guide/
 | `basics/basics.go` | 变量三种声明方式、const 常量、if-else、for 循环、switch、函数定义 | `add()` |
 | `stdlib/stdlib.go` | 命令行参数读取、字符串转数字、格式化输出 | `demoOS()` `demoStrconv()` `demoFmt()` |
 | `games/guess.go` | 随机数、缓冲读取输入、循环+条件判断综合应用 | `guessNumber()` |
+| `structs/roster.go` | 结构体 struct、方法 method、切片排序、字符串拼接、格式化输出 | `Add()` `Top()` `Best()` `AverageScore()` |
 | `todo/todo.go` | 结构体 struct、切片 slice、map 思路、JSON 文件持久化、flag 参数解析 | `add()` `list()` `done()` `rm()` `clear()` |
 
-建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 最后研究 `todo`**。
+建议阅读顺序：**先读 `basics` → 再读 `stdlib` → 然后挑战 `games` → 接着学 `structs` → 最后研究 `todo`**。
 
 ---
 
