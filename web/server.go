@@ -4,9 +4,9 @@
 // 写一个有真实 HTTP 接口的 Web 服务——这是 Go 在后端开发里最常用、也最拿手的事。
 //
 // 你会学到三件事：
-//   1. 用 net/http 注册路由（把"网址路径"对应到"处理函数"）。
-//   2. 处理函数怎么读请求、写响应（http.ResponseWriter / *http.Request）。
-//   3. 启动服务器并监听端口（http.ListenAndServe）。
+//  1. 用 net/http 注册路由（把"网址路径"对应到"处理函数"）。
+//  2. 处理函数怎么读请求、写响应（http.ResponseWriter / *http.Request）。
+//  3. 启动服务器并监听端口（http.ListenAndServe）。
 //
 // 跑起来后，浏览器或 curl 访问 http://localhost:8080 就能看到返回内容。
 // 建议先读懂 basics / structs / concurrency 再看本文件。

@@ -2,6 +2,7 @@
 // Go 的测试约定：
 //   - 文件名以 _test.go 结尾
 //   - 函数名以 Test 开头，参数固定为 (t *testing.T)
+//
 // 运行测试的命令：go test ./...  （在项目根目录执行）
 package main
 

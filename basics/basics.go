@@ -8,8 +8,8 @@ import "fmt" // fmt 负责把内容打到屏幕上
 // 变量有几种写法，看一眼就懂
 func demoVariables() {
 	var name string = "小明" // 最正式：var + 类型
-	var age = 18              // 让 Go 自己猜类型，这里会是 int
-	height := 1.75            // := 最常用，函数里直接这么写，小数默认 float64
+	var age = 18           // 让 Go 自己猜类型，这里会是 int
+	height := 1.75         // := 最常用，函数里直接这么写，小数默认 float64
 
 	fmt.Println("姓名：", name)
 	fmt.Println("年龄：", age)

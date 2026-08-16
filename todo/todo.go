@@ -1,10 +1,11 @@
 // 待办事项命令行小工具：struct 打包一条待办，slice 存一摞，JSON 落盘不丢。
 // 用法：
-//   go run ./todo add "买牛奶"   # 加一条
-//   go run ./todo list           # 看全部
-//   go run ./todo done 1         # 标记第 1 条完成
-//   go run ./todo rm 2           # 删第 2 条
-//   go run ./todo clear          # 清空
+//
+//	go run ./todo add "买牛奶"   # 加一条
+//	go run ./todo list           # 看全部
+//	go run ./todo done 1         # 标记第 1 条完成
+//	go run ./todo rm 2           # 删第 2 条
+//	go run ./todo clear          # 清空
 package main
 
 import (

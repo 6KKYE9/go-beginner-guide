@@ -2,9 +2,9 @@
 //
 // Go 最吸引人的特性之一就是「并发」——用很少的代码同时做多件事。
 // 本示例带你认识三个核心概念：
-//   1. goroutine  —— 用 go 关键字启动的“轻量级线程”，廉价到可以同时开成千上万个。
-//   2. channel    —— goroutine 之间传递数据的“管道”，用 <- 收发。
-//   3. sync.WaitGroup —— 一种“等所有人干完活再下班”的计数工具。
+//  1. goroutine  —— 用 go 关键字启动的“轻量级线程”，廉价到可以同时开成千上万个。
+//  2. channel    —— goroutine 之间传递数据的“管道”，用 <- 收发。
+//  3. sync.WaitGroup —— 一种“等所有人干完活再下班”的计数工具。
 //
 // 建议先读懂 basics 和 structs 两个示例再来看本文件。
 package main
@@ -26,7 +26,7 @@ func worker(id int, jobs <-chan int, results chan<- int, wg *sync.WaitGroup) {
 	for job := range jobs { // 不断从通道取任务，通道关闭后循环自动结束
 		fmt.Printf("工人 %d 开始处理任务 %d\n", id, job)
 		time.Sleep(time.Millisecond * 200) // 模拟耗时工作
-		results <- job * 2                  // 把“结果”放进结果通道
+		results <- job * 2                 // 把“结果”放进结果通道
 	}
 }
 
@@ -55,8 +55,8 @@ func RunConcurrency() []int {
 	// 单独开一个 goroutine 等所有 worker 下班，然后关闭 results 通道。
 	// 否则下面“从 results 取数据”的循环会一直等，程序卡死。
 	go func() {
-		wg.Wait()       // 阻塞，直到所有 worker 都 wg.Done()
-		close(results)  // 全员下班，结果通道可以关闭了
+		wg.Wait()      // 阻塞，直到所有 worker 都 wg.Done()
+		close(results) // 全员下班，结果通道可以关闭了
 	}()
 
 	// 主 goroutine 从 results 收集所有结果

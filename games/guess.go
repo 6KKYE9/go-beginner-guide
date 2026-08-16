@@ -4,7 +4,7 @@
 package main
 
 import (
-	"bufio"     // 带缓冲，方便逐行读键盘
+	"bufio" // 带缓冲，方便逐行读键盘
 	"fmt"
 	"math/rand" // 生成随机数
 	"os"
